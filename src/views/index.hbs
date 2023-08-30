@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" 
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" 
+        integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" 
+        crossorigin="anonymous" 
+        referrerpolicy="no-referrer"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+    <title>My Blog</title>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container">
+          <a class="navbar-brand" href="index.html">
+            <img src="/image/logo.png" alt="">
+          </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item  fw-semibold">
+                <a class="nav-link active" aria-current="page" href="/home">Home</a>
+              </li>
+              <li class="nav-item fw-semibold">
+                <a class="nav-link" href="/add-project">Add Project</a>
+              </li>
+            </ul>
+            <div class="d-flex" role="search">
+              <a href="/contact"><button class="btn btn-danger">Contact Me</button></a>
+            </div>
+          </div>
+        </div>
+    </nav>
+
+    <div class="card mb-3 container align-self-center mt-5 mb-5" style="max-width: 600px;">
+        <div class="row g-0">
+          <div class="col-md-8">
+            <div class="card-body">
+              <h5 class="card-title fw-bold">Hi! Welcome to my hut!</h5>
+              <p class="card-text">Lorem ipsum dolor sit, amet consectetur adipisicing elit. 
+                Eveniet velit ab repudiandae deserunt quo eaque corporis laborum labore maxime ipsa. 
+                Quis expedita autem dolor voluptatibus, ex labore illo doloremque harum! Repudiandae, 
+                harum possimus ut reprehenderit culpa pariatur repellat, beatae amet deserunt cum consequatur 
+                est incidunt accusantium dolor necessitatibus at. Ut placeat expedita corrupti quam enim quasi 
+                iusto cupiditate. Molestias, nihil?</p>
+              <p class="card-text"><small class="text-body-secondary">
+                <button class="btn btn-danger btn-primary" type="submit">Contact</button>
+                <a href="#" class="link-secondary ms-3">Download CV</a>
+                <i class="fas fa-download"></i>
+              </small>
+              </p>
+              <p class="card-text">
+                <i class="fa-brands fa-github"></i>
+                <i class="fa-brands fa-square-instagram"></i>
+                <i class="fa-brands fa-facebook"></i>
+                <i class="fa-brands fa-twitter"></i>
+              </small>
+              </p>
+            </div>
+          </div>
+          <div class="col-md-4 align-self-center">
+            <div class="card" style="width: 10rem;">
+                <img src="/image/boo.jpg" class="card-img-top" alt="portrait">
+                <div class="card-body">
+                  <h5 class="card-title fw-medium">Dita Putri Annisa</h5>
+                  <p class="card-text">Fullstack Developer</p>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+    <hr class="line"/>
+    <div class="container mb-5">
+        <h1 class="fw-bold text-center mb-3">MY PROJECT</h1>
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+          {{#each obj}}
+            <div class="col">
+              <div class="card h-100">
+                <img src="/image/annie-spratt-FSFfEQkd1sc-unsplash.jpg" class="card-img-top" alt="..."
+                style="height:200px; object-fit:cover">
+                <div class="card-body">
+                  <a href="/blog-details/{{@index}}" class="text-secondary-emphasis">
+                  <h5 class="card-title" >{{this.projectname}}</h5>
+                  </a>
+                  <p class="card-text">durasi : {{this.dateduration}}</p>
+                  <p class="card-text">{{this.content}}</p>
+                  {{#if this.nodejs}}
+                  <img src="/image/icons8-nodejs.svg" alt="" style="width: 25px;">
+                  {{/if}}
+                  {{#if this.nextjs}}
+                  <img src="/image/next-js.svg" alt="" style="width: 25px;" >
+                  {{/if}}
+                  {{#if this.reactjs}}
+                  <img src="/image/icons8-react-js.svg" alt="" style="width: 25px;" >
+                  {{/if}}
+                  {{#if this.typescript}}
+                  <img src="/image/icons8-typescript.svg" alt="" style="width: 25px;" >
+                  {{/if}}
+                </div>
+                <div class="container gap-2 d-md-block mb-2">
+                    <button class="btn btn-primary btn-danger" type="button">
+                      <a href="/edit-blog/{{@index}}" class="text-light">Edit</a>
+                      </button>
+                    <button class="btn btn-primary btn-danger" type="button">
+                      <a href="/delete-blog/{{@index}}" class="text-light">Delete</a>
+                    </button>
+                </div>
+              </div>
+            </div>
+
+        {{/each}}
+        </div>
+        
+    </div>
+</body>
+</html>

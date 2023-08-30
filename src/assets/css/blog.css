@@ -1,0 +1,319 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
+* {
+    text-decoration: none;
+    font-family: "poppins", sans-serif;
+    color: black;
+}
+body{
+    margin: 0;
+}
+
+nav {
+    background-color: whitesmoke;
+    display: flex;
+    align-items: center;
+    height: 10vh;
+}
+
+nav ul{
+    display: flex;
+    list-style-type: none;
+    align-items: start;
+}
+
+nav ul li{
+    margin-right: 25px;
+    font-size: 18px;
+    color: black;
+    align-items: center;
+    justify-content: center;
+}
+
+nav ul li .active{
+    color: orangered;
+}
+
+.nav-left{
+    flex: 70%;
+}
+
+.nav-right{
+    flex: 30%;
+    text-align: end;
+    margin-right: 35px;
+    align-items: center;
+}
+
+.nav-right a{
+    background-color: black;
+    color: whitesmoke;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: whitesmoke;
+}
+section{
+    display: flex;
+    width: 80%;
+    background-color: white;
+    margin: 20px;
+    border-radius: 5px;
+
+}
+.left{
+    flex: 50%;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+.right{
+    flex: 50%;
+    margin-right: 20px;
+}
+.blog-form{
+    display: flex;
+    padding: 50px 0;
+    justify-content: center;
+}
+.blog-form .form-container{
+    width: 500px;
+}
+.blog-form .form-container h1 {
+    text-align: center;
+    margin-bottom: 40px;
+}
+.blog-form form label {
+    font-size: 15px;
+    font-weight: bold;
+}
+.blog-form form input,
+textarea,
+select {
+  width: 100%;
+  font-size: 20px;
+  font-weight: 400;
+  padding: 8px;
+  margin-top: 5px;
+  margin-bottom: 20px;
+  background: #f4f3f3;
+  border: 1px solid #c4c4c4;
+  border-radius: 8px;
+  resize: none;
+}
+.blog-form form .start-end-date{
+    display: flex;
+    gap: 10px;
+}
+.blog-form form .start-end-date .startdate{
+    flex: 50%;
+}
+.blog-form form .start-end-date .enddate{
+    flex: 50%;
+}
+.blog-form form .input-checkbox{
+    display: flex;
+    justify-content: left;
+    gap: 20px;
+}
+.blog-form form .input-checkbox input{
+    width: 20px ;
+    height: 20px;
+}
+.blog-form form .input-checkbox .checkbox-left{
+    font-size: 15px;
+    font-weight: 400
+}
+.blog-form form .input-checkbox .checkbox-right{
+    font-size: 15px;
+    font-weight: 400
+}
+.blog-form form .input-checkbox label {
+    font-size: 15px;
+    font-weight: 200;
+}
+.blog-form form .btn-image{
+    display: flex;
+}
+.blog-form form .input-blog-image-group {
+    width: 100%;
+    font-size: 20px;
+    font-weight: 400;
+    padding: 0;
+    margin-top: 5px;
+    margin-bottom: 20px;
+    background: #f4f3f3;
+    border: 1px solid #c4c4c4;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  
+  .blog-form form .input-blog-image-group label p {
+    font-size: 15px;
+  }
+  
+  .blog-form form .input-blog-image-group label {
+    width: 95%;
+    padding: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .blog .blog-card{
+    width: 80%;
+    padding: 15px;
+    margin-right: auto;
+    margin-left: auto;
+    margin-bottom: 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 50px;
+  }
+  .blog .blog-title h1{
+    justify-content: center;
+    text-align: center;
+    margin-right: auto;
+    margin-left: auto;
+  }
+  .blog .blog-card .card-item{
+    border-radius: 5px;
+    box-shadow: 0 0 2px 0;
+    padding: 10px;
+    height:max-content
+  }
+   .blog-image img{
+    border-radius: 5px;
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+  }
+  
+  .blog-content .application{
+    height: 15px;
+    margin: 10px auto;
+  }
+ .blog-content .blog-details{
+    font-weight: 300;
+    font-size: 12px;
+    line-height: 20px;
+  }
+  .blog-details p{
+    font-weight: 400;
+    font-size: 12px;
+  }
+  .btn-group{
+    display: flex;
+    gap:10px ;
+    color: white;
+  }
+   .btn-group button{
+    background-color: black;
+    color: white;
+    border-radius: 5px;
+  }
+    .btn-group button:hover{
+    background-color: orangered;
+  }
+  .btn-group .btn-edit{
+    flex: 50%;
+}
+  .btn-group .btn-delete{
+    flex: 50%;
+}
+/*blog-content-detail*/
+.blog-detail{
+    margin: 20px;
+    padding: auto;
+}
+.blog-detail h1{
+    justify-content: center;
+    text-align: center;
+}
+.blog-detail .first-blog-detail{
+    display: flex ;
+    gap: 30px;
+}
+.first-blog-detail .details-img{
+    flex: 60%;
+    margin: 10px 0 0;
+}
+.details-img img{
+    width: 100%;
+}
+.details-info{
+    flex: 40%;
+}
+.details-info .technology{
+    display: flex;
+}
+.technology .technology-left{
+    flex: 50%;
+    justify-content: center;
+}
+.technology .technology-right{
+    flex: 50%;
+}
+
+#barsmenu{
+    display: none;
+}
+
+.hamburger-nav-container{
+    font-size: 20px;
+    list-style-type: none;
+    display: none;
+}
+
+.hamburger-nav-container a {
+  text-decoration: none;
+  color: #fff;
+  background-color: #9a9a9a;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  border: 1px solid #fff;
+}
+
+.hamburger-nav-container .hamburger-active {
+    text-decoration: none;
+    color: #fff;
+    background-color: orangered;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    border: 1px solid #fff;
+  }
+
+@media only screen and (max-width : 480px){
+    .blog-form .form-container{
+        width: 80%;
+    } 
+    .blog .blog-card{
+        grid-template-columns: 1fr 1fr;
+    }
+    .blog-form form .start-end-date{
+        flex-direction: column;
+    }
+    .blog-image img{
+        height: 200px;
+      }
+
+    #barsmenu{
+        display: block;
+    }
+    .item-collapse{
+        display: none;
+    }
+    .blog-detail .first-blog-detail{
+        flex-direction: column;
+    }
+}

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" 
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" 
+        integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" 
+        crossorigin="anonymous" 
+        referrerpolicy="no-referrer"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+    <title>My Blog</title>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container">
+          <a class="navbar-brand" href="/home">
+            <img src="/image/logo.png" alt="">
+          </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item  fw-semibold">
+                <a class="nav-link " aria-current="page" href="/home">Home</a>
+              </li>
+              <li class="nav-item fw-semibold">
+                <a class="nav-link active" href="/add-project">Add Project</a>
+              </li>
+            </ul>
+            <div class="d-flex" role="search">
+                <a href="/contact"><button class="btn btn-danger">Contact Me</button></a>
+            </div>
+          </div>
+        </div>
+    </nav>
+
+    <div class="container my-5 text-bg-secondary p-3" style="width: 500px;">
+        <h4 class="text-center">Edit Project</h4>
+        <form method="post" action="{{home.id}}">
+          <div class="mb-3">
+            <label for="input-project-name" class="form-label">Project Name</label>
+            <input type="text" class="form-control" name="title" id="title" aria-describedby="emailHelp"
+            value="{{home.title}}">
+          </div>
+
+          <div class="mb-3">
+            <div class="start-end-date d-flex">
+                <div class="startdate col">
+                    <label for="input-start-date">Start Date</label>
+                    <input type="date" class="form-control" name="startdate" id="input-start-date" value="{{home.startdate}}"/>
+                </div>
+                <div class="enddate col ms-3">
+                    <label for="input-end-date">End Date</label>
+                    <input type="date" class="form-control" name="enddate" id="input-end-date" value="{{home.enddate}}"/>
+                </div>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="input-description" class="form-label">Description</label>
+            <textarea class="form-control" name="content" id="content" style="height: 200px; resize: none"
+            >{{home.content}}</textarea>
+          </div>
+  
+          <div class="mb-3">
+            <label>Technologies</label>
+                            <div class="input-checkbox d-flex">
+                                <div class="checkbox-left col">
+                                    <div class="checkbox">
+                                        {{#if home.nodejs}}
+                                        <input type="checkbox" name="nodejs" id="node-js" checked/>
+                                        <img src="/image/icons8-nodejs.svg" alt="" style="width: 25px;">
+                                        <label for="node-js">Node Js</label>
+                                        {{else}}
+                                        <input type="checkbox" name="nodejs" id="node-js" />
+                                        <img src="/image/icons8-nodejs.svg" alt="" style="width: 25px;">
+                                        <label for="node-js">Node Js</label>
+                                        {{/if}}
+                                    </div>
+                                    <div class="checkbox">
+                                        {{#if home.nextjs}}
+                                        <input type="checkbox" name="nextjs" id="next-js" checked  />
+                                        <img src="/image/next-js.svg" alt="" style="width: 25px;">
+                                        <label for="next-js">Next Js</label>
+                                        {{else}}
+                                        <input type="checkbox" name="nextjs" id="next-js" />
+                                        <img src="/image/next-js.svg" alt="" style="width: 25px;">
+                                        <label for="next-js">Next Js</label>
+                                        {{/if}}
+                                    </div>
+                                </div>
+                                <div class="checkbox-right col">
+                                    <div class="checkbox">
+                                        {{#if home.reactjs}}
+                                        <input type="checkbox" name="reactjs" id="react-js" checked />
+                                        <img src="/image/icons8-react-js.svg" alt="" style="width: 25px;" >
+                                        <label for="react-js">React JS</label>
+                                        {{else}}
+                                        <input type="checkbox" name="reactjs" id="react-js" />
+                                        <img src="/image/icons8-react-js.svg" alt="" style="width: 25px;">
+                                        <label for="react-js">React JS</label>
+                                        {{/if}}
+                                    </div>
+                                    <div class="checkbox">
+                                        {{#if home.typescript}}
+                                        <input type="checkbox" name="typescript" id="typescript" checked/>
+                                        <img src="/image/icons8-typescript.svg" alt="" style="width: 25px;">
+                                        <label for="typescript">Typescript</label>
+                                        {{else}}
+                                        <input type="checkbox" name="typescript" id="typescript" />
+                                        <img src="/image/icons8-typescript.svg" alt="" style="width: 25px;">
+                                        <label for="typescript">Typescript</label>
+                                        {{/if}}
+                                    </div>
+                                </div>
+                            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="input-blog-image" class="form-label">Upload Image</label>
+            <input type="file" class="form-control" id="input-blog-image" aria-describedby="inputGroupFileAddon04" aria-label="Upload">
+          </div>
+  
+          <div class="d-flex justify-content-end mt-5">
+            <button type="submit" class="btn btn-danger px-5 py-3">Submit</button>
+          </div>
+        </form>
+    </div>
+</body>
+</html>
