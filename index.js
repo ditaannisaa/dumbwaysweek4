@@ -105,20 +105,29 @@ function isChecked(checkbox){
 }
 
 async function addBlog(req, res) {
-  try{
-    var { projectname, startdate, enddate, content, nodejs, nextjs, reactjs, typescript } = req.body
+    const { projectname, startdate, enddate, content, nodejs, nextjs, reactjs, typescript } = req.body
     var dateduration = duration(startdate, enddate);
     nodejs = isChecked(nodejs);
     nextjs = isChecked(nextjs);
     reactjs = isChecked(reactjs);
     typescript = isChecked(typescript);
 
-    await sequelize.query(`INSERT INTO projects(projectname, startdate, enddate, content, has_nodejs, has_nextjs, has_reactjs, has_typescript, image, dateduration, "createdAt", "updatedAt") VALUES ('${projectname}', '${startdate}), '${enddate}', ${content}, '${nodejs}', '${nextjs}', '${reactjs}', '${typescript}', 'img.jpg', '${dateduration}', NOW(), NOW())`);
-
+    const blog = {
+      title,
+      content,
+      dateDuration,
+      startdate,
+      enddate,
+      nodejs,
+      nextjs,
+      reactjs,
+      typescript,
+    }
+  
+    dataBlog.push(blog)
+    
     res.redirect('/home')
-  } catch (error){
-    console.log(error)
-  }
+  
 }
 
 
