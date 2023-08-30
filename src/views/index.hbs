@@ -85,30 +85,30 @@
                 <img src="/image/annie-spratt-FSFfEQkd1sc-unsplash.jpg" class="card-img-top" alt="..."
                 style="height:200px; object-fit:cover">
                 <div class="card-body">
-                  <a href="/blog-details/{{@index}}" class="text-secondary-emphasis">
+                  <a href="/blog-details/{{this.id}}" class="text-secondary-emphasis">
                   <h5 class="card-title" >{{this.projectname}}</h5>
                   </a>
                   <p class="card-text">durasi : {{this.dateduration}}</p>
                   <p class="card-text">{{this.content}}</p>
-                  {{#if this.nodejs}}
+                  {{#if this.has_nodejs}}
                   <img src="/image/icons8-nodejs.svg" alt="" style="width: 25px;">
                   {{/if}}
-                  {{#if this.nextjs}}
+                  {{#if this.has_nextjs}}
                   <img src="/image/next-js.svg" alt="" style="width: 25px;" >
                   {{/if}}
-                  {{#if this.reactjs}}
+                  {{#if this.has_reactjs}}
                   <img src="/image/icons8-react-js.svg" alt="" style="width: 25px;" >
                   {{/if}}
-                  {{#if this.typescript}}
+                  {{#if this.has_typescript}}
                   <img src="/image/icons8-typescript.svg" alt="" style="width: 25px;" >
                   {{/if}}
                 </div>
                 <div class="container gap-2 d-md-block mb-2">
                     <button class="btn btn-primary btn-danger" type="button">
-                      <a href="/edit-blog/{{@index}}" class="text-light">Edit</a>
+                      <a href="/edit-blog/{{this.id}}" class="text-light">Edit</a>
                       </button>
                     <button class="btn btn-primary btn-danger" type="button">
-                      <a href="/delete-blog/{{@index}}" class="text-light">Delete</a>
+                      <a href="/delete-blog/{{this.id}}" class="text-light">Delete</a>
                     </button>
                 </div>
               </div>

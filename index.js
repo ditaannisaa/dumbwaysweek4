@@ -57,7 +57,6 @@ async function home(req, res) {
     const query = `SELECT id, projectname, startdate, enddate, content, has_nodejs, has_nextjs, has_reactjs, has_typescript, image, dateduration, "createdAt", "updatedAt"
     FROM public.projects`;
     let obj = await sequelize.query(query, { type: QueryTypes.SELECT });
-    console.log(obj)
 
     res.render('index', { obj })
   } catch (error) {
@@ -105,73 +104,87 @@ function isChecked(checkbox){
 }
 
 async function addBlog(req, res) {
-    const { projectname, startdate, enddate, content, nodejs, nextjs, reactjs, typescript } = req.body
+  try{
+    var { projectname, startdate, enddate, content, nodejs, nextjs, reactjs, typescript } = req.body
     var dateduration = duration(startdate, enddate);
     nodejs = isChecked(nodejs);
     nextjs = isChecked(nextjs);
     reactjs = isChecked(reactjs);
     typescript = isChecked(typescript);
 
-    const blog = {
-      title,
-      content,
-      dateDuration,
-      startdate,
-      enddate,
-      nodejs,
-      nextjs,
-      reactjs,
-      typescript,
-    }
-  
-    dataBlog.push(blog)
+    await sequelize.query(`
+      INSERT INTO "projects"(
+        projectname, startdate, enddate, content,
+        has_nodejs, has_nextjs, has_reactjs, has_typescript,
+        image, dateduration
+      ) VALUES (
+        '${projectname}', '${startdate}', '${enddate}', '${content}',
+        '${nodejs}', '${nextjs}', '${reactjs}', '${typescript}',
+        'img.jpg', '${dateduration}'
+      )
+    `);
     
     res.redirect('/home')
-  
-}
-
-
-function blogDetails(req, res) {
-  const { id } = req.params
-
-  res.render('blog-details', { home: dataBlog[id] })
-}
-
-function deleteBlog(req, res) {
-  const { id } = req.params
-
-  dataBlog.splice(id, 1)
-  res.redirect('/home')
-}
-
-function updateBlog(req, res) {
-  const { id } = req.params
-
-  res.render('edit-project', { home: dataBlog[id]})
-}
-
-function editBlog(req, res) {
-  const { id } = req.params
-  console.log(id)
-  var { title, startdate, enddate, content, nodejs, nextjs, reactjs, typescript } = req.body
-  const dateDuration = duration(startdate, enddate);
-  nodejs = isChecked(nodejs);
-  nextjs = isChecked(nextjs);
-  reactjs = isChecked(reactjs);
-  typescript = isChecked(typescript);
-
-  const form = {
-    title,
-    content,
-    dateDuration,
-    startdate,
-    enddate,
-    nodejs,
-    nextjs,
-    reactjs,
-    typescript,
+  } catch (error) {
+    console.log(error)
   }
-  dataBlog[id] = form;
-  console.log(dataBlog);
-  res.redirect('/home');
+}
+
+
+async function blogDetails(req, res) {
+  try{
+    const { id } = req.params
+    const query = `SELECT * FROM "projects" WHERE id=${id}`
+
+    const obj = await sequelize.query(query, {type: QueryTypes.SELECT})
+
+    res.render('blog-details', { home: obj[0] })
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+async function deleteBlog(req, res) {
+  try {
+    const { id } = req.params
+
+    await sequelize.query(`DELETE from "projects" WHERE id=${id}`)
+    res.redirect('/home')
+  } catch (error) {
+    
+  }
+}
+
+async function updateBlog(req, res) {
+  try {
+    const { id } = req.params
+    const query = `SELECT * FROM "projects" WHERE id=${id}`
+
+    const obj = await sequelize.query(query, {type: QueryTypes.SELECT})
+
+    res.render('edit-project', { home: obj[0] })
+  } catch (error) {
+  }
+}
+
+async function editBlog(req, res) {
+  try {
+    const { id } = req.params
+    console.log(id)
+    var { projectname, startdate, enddate, content, nodejs, nextjs, reactjs, typescript } = req.body
+    const dateduration = duration(startdate, enddate);
+    nodejs = isChecked(nodejs);
+    nextjs = isChecked(nextjs);
+    reactjs = isChecked(reactjs);
+    typescript = isChecked(typescript);
+
+  await sequelize.query(`
+      UPDATE "projects" SET
+        projectname = '${projectname}', startdate = '${startdate}', enddate = '${enddate}', content = '${content}',
+        has_nodejs = '${nodejs}', has_nextjs = '${nextjs}', has_reactjs = '${reactjs}', has_typescript = '${typescript}',
+        image = 'img.jpg', dateduration = '${dateduration}' WHERE id= ${id};
+    `);
+    res.redirect('/home');
+  } catch (error) {
+  }
 }

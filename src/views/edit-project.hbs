@@ -42,8 +42,8 @@
         <form method="post" action="{{home.id}}">
           <div class="mb-3">
             <label for="input-project-name" class="form-label">Project Name</label>
-            <input type="text" class="form-control" name="title" id="title" aria-describedby="emailHelp"
-            value="{{home.title}}">
+            <input type="text" class="form-control" name="projectname" id="title" aria-describedby="emailHelp"
+            value="{{home.projectname}}">
           </div>
 
           <div class="mb-3">
@@ -70,7 +70,7 @@
                             <div class="input-checkbox d-flex">
                                 <div class="checkbox-left col">
                                     <div class="checkbox">
-                                        {{#if home.nodejs}}
+                                        {{#if home.has_nodejs}}
                                         <input type="checkbox" name="nodejs" id="node-js" checked/>
                                         <img src="/image/icons8-nodejs.svg" alt="" style="width: 25px;">
                                         <label for="node-js">Node Js</label>
@@ -81,7 +81,7 @@
                                         {{/if}}
                                     </div>
                                     <div class="checkbox">
-                                        {{#if home.nextjs}}
+                                        {{#if home.has_nextjs}}
                                         <input type="checkbox" name="nextjs" id="next-js" checked  />
                                         <img src="/image/next-js.svg" alt="" style="width: 25px;">
                                         <label for="next-js">Next Js</label>
@@ -94,7 +94,7 @@
                                 </div>
                                 <div class="checkbox-right col">
                                     <div class="checkbox">
-                                        {{#if home.reactjs}}
+                                        {{#if home.has_reactjs}}
                                         <input type="checkbox" name="reactjs" id="react-js" checked />
                                         <img src="/image/icons8-react-js.svg" alt="" style="width: 25px;" >
                                         <label for="react-js">React JS</label>
@@ -105,7 +105,7 @@
                                         {{/if}}
                                     </div>
                                     <div class="checkbox">
-                                        {{#if home.typescript}}
+                                        {{#if home.has_typescript}}
                                         <input type="checkbox" name="typescript" id="typescript" checked/>
                                         <img src="/image/icons8-typescript.svg" alt="" style="width: 25px;">
                                         <label for="typescript">Typescript</label>

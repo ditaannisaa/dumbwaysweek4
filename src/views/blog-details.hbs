@@ -39,7 +39,7 @@
         
         <div class="container">
           <section class="mt-5">
-            <h2 class="text-center">{{home.title}}</h2>
+            <h2 class="text-center">{{home.projectname}}</h2>
     
             <div class="mt-5 row">
               <div class="col">
@@ -53,7 +53,7 @@
                       <i class="fa-solid fa-calendar-days fa-2xl"></i>{{home.startdate}} -
                       {{home.enddate}}
                     </p>
-                    <p><i class="fa-solid fa-earth-oceania fa-2xl"></i>{{home.dateDuration}}</p>
+                    <p><i class="fa-solid fa-earth-oceania fa-2xl"></i>{{home.dateduration}}</p>
                   </div>
                 </div>
     
@@ -61,21 +61,21 @@
                   <p class="fw-bold">Technologies</p>
                   <div class="row-gap-5">
                     <div class="col">
-                      {{#if home.nodejs}}
+                      {{#if home.has_nodejs}}
                       <img src="/image/icons8-nodejs.svg" alt="" style="width: 25px;">
                       <label for="node-js">Node Js</label>
                       {{/if}}
-                      {{#if home.nextjs}}
+                      {{#if home.has_nextjs}}
                       <img src="/image/next-js.svg" alt="" style="width: 25px; margin-left: 20px;">
                       <label for="next-js">Next Js</label>
                       {{/if}}
                     </div>
                     <div class="col gap-5">
-                      {{#if home.reactjs}}
+                      {{#if home.has_reactjs}}
                       <img src="/image/icons8-react-js.svg" alt="" style="width: 25px;">
                       <label for="react-js">React JS</label>
                       {{/if}}
-                      {{#if home.typescript}}
+                      {{#if home.has_typescript}}
                       <img src="/image/icons8-typescript.svg" alt="" style="width: 25px; margin-left: 20px;">
                       <label for="typescript">Typescript</label>
                       {{/if}}
