@@ -2,6 +2,9 @@ const express = require('express')
 const app = express()
 const PORT = 5000
 const path = require('path')
+const bcrypt = require('bcrypt')
+const session = require('express-session')
+const flash = require('express-flash')
 
 // sequelize init
 const config = require('./src/config/config.json')
@@ -18,6 +21,22 @@ app.use(express.static('src/assets'))
 // parsing data
 app.use(express.urlencoded({ extended: false }))
 
+//setup flash
+app.use(flash())
+
+//setup session
+app.use(session({
+  cookie: {
+    httpOnly: true,
+    secure: false,
+    maxAge: 1000 * 60 * 60 * 2
+  },
+  store: new session.MemoryStore(),
+  saveUninitialized: true,
+  resave: false,
+  secret: 'secretValue'
+}))
+
 // get
 app.get('/home', home)
 app.get('/add-project', addProject)
@@ -25,10 +44,15 @@ app.get('/contact', contact)
 app.get('/blog-details/:id', blogDetails)
 app.get('/delete-blog/:id', deleteBlog)
 app.get('/edit-blog/:id', updateBlog)
+app.get('/register', formRegister)
+app.get('/login', formLogin)
+app.get('/logout', logout)
 
 //post
 app.post('/add-project', addBlog)
 app.post('/edit-blog/:id', editBlog)
+app.post('/register', addUser)
+app.post('/login', login)
 
 // local server
 app.listen(PORT, () => {
@@ -58,14 +82,18 @@ async function home(req, res) {
     FROM public.projects`;
     let obj = await sequelize.query(query, { type: QueryTypes.SELECT });
 
-    res.render('index', { obj })
+    res.render('index', { 
+      obj,
+      isLogin: req.session.isLogin,
+      user: req.session.user
+    })
   } catch (error) {
     console.log(error)}
 }
 
 function addProject(req, res) {
+  checkIsLogout(req, res)
   res.render('add-project')
-
 }
 
 function contact(req, res) {
@@ -124,7 +152,10 @@ async function addBlog(req, res) {
       )
     `);
     
-    res.redirect('/home')
+    res.redirect('/home', {
+      isLogin: req.session.isLogin,
+      user: req.session.user
+    })
   } catch (error) {
     console.log(error)
   }
@@ -147,9 +178,13 @@ async function blogDetails(req, res) {
 async function deleteBlog(req, res) {
   try {
     const { id } = req.params
+    checkIsLogout(req, res)
 
     await sequelize.query(`DELETE from "projects" WHERE id=${id}`)
-    res.redirect('/home')
+    res.redirect('/home', {
+      isLogin: req.session.isLogin,
+      user: req.session.user
+    })
   } catch (error) {
     
   }
@@ -161,8 +196,13 @@ async function updateBlog(req, res) {
     const query = `SELECT * FROM "projects" WHERE id=${id}`
 
     const obj = await sequelize.query(query, {type: QueryTypes.SELECT})
+    checkIsLogout(req, res)
 
-    res.render('edit-project', { home: obj[0] })
+    res.render('edit-project', { 
+      home: obj[0],
+      isLogin: req.session.isLogin,
+      user: req.session.user
+    })
   } catch (error) {
   }
 }
@@ -184,7 +224,74 @@ async function editBlog(req, res) {
         has_nodejs = '${nodejs}', has_nextjs = '${nextjs}', has_reactjs = '${reactjs}', has_typescript = '${typescript}',
         image = 'img.jpg', dateduration = '${dateduration}' WHERE id= ${id};
     `);
-    res.redirect('/home');
+    res.redirect('/home', {
+      isLogin: req.session.isLogin,
+      user: req.session.user
+    });
   } catch (error) {
   }
+}
+
+function formRegister(req, res) {
+  res.render('register')
+}
+
+async function addUser(req, res) {
+  try {
+    const { name, email, password } = req.body
+    const salt = 10
+    
+    await bcrypt.hash(password, salt, (err, hashPassword) => {
+      const query = `INSERT INTO users (name, email, password, "createdAt", "updatedAt") 
+      VALUES ('${name}', '${email}', '${hashPassword}', NOW(), NOW())`
+
+      sequelize.query(query)
+      res.redirect('login')
+    })
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+function formLogin(req, res) {
+  res.render('login')
+}
+
+async function login(req, res) {
+  try {
+    const { email, password } = req.body
+    const query = `SELECT * FROM users WHERE email = '${email}'`
+    let obj = await sequelize.query(query, { type : QueryTypes.SELECT })
+
+    if(!obj.length) {
+      req.flash('danger', "User has not been registered")
+      return res.redirect('/login')
+    }
+
+    await bcrypt.compare(password, obj[0].password, (err, result) => {
+      if(!result) {
+        req.flash('danger', 'Wrong password')
+        return res.redirect('/login')
+      } else {
+        req.session.isLogin = true
+        req.session.user = obj[0].name
+        req.flash('success', 'Login success')
+        res.redirect('/home')
+      }
+    })
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+function checkIsLogout(req, res){
+  if(!req.session.isLogin){
+    req.flash('danger', 'You are not authenticated')
+    return res.redirect('/login')
+  }
+}
+
+function logout(req, res) {
+   req.session.destroy()
+   res.redirect('/home')
 }

@@ -26,16 +26,43 @@
               <li class="nav-item  fw-semibold">
                 <a class="nav-link active" aria-current="page" href="/home">Home</a>
               </li>
-              <li class="nav-item fw-semibold">
-                <a class="nav-link" href="/add-project">Add Project</a>
-              </li>
+              {{#if isLogin}}
+                <li class="nav-item fw-semibold">
+                  <a class="nav-link" href="/add-project">Add Project</a>
+                </li>
+              {{/if}}
             </ul>
-            <div class="d-flex" role="search">
+            <div class="d-flex">
+              <ul class="navbar-nav me-3 mb-2 ms-5 mb-lg-0">
+                {{#if isLogin}}
+                <li class="nav-item fw-semibold active">
+                  <a class="nav-link active" href="#">Hello, {{user}}</a>
+                </li>
+                <li class="nav-item fw-semibold">
+                  <a class="nav-link" href="/logout">Logout</a>
+                </li>
+                {{else}}
+                <li class="nav-item fw-semibold active">
+                  <a class="nav-link active" href="/register">Register</a>
+                </li>
+                <li class="nav-item fw-semibold">
+                  <a class="nav-link" href="/login">Login</a>
+                </li>
+                {{/if}}
+              </ul> 
               <a href="/contact"><button class="btn btn-danger">Contact Me</button></a>
             </div>
           </div>
         </div>
     </nav>
+
+    {{#if messages.success}}
+        <div class="alert alert-success" role="alert">
+          <div class="container">
+            {{messages.success}}
+          </div>
+        </div>
+    {{/if}}
 
     <div class="card mb-3 container align-self-center mt-5 mb-5" style="max-width: 600px;">
         <div class="row g-0">
@@ -104,12 +131,14 @@
                   {{/if}}
                 </div>
                 <div class="container gap-2 d-md-block mb-2">
+                  {{#if this.isLogin}}
                     <button class="btn btn-primary btn-danger" type="button">
                       <a href="/edit-blog/{{this.id}}" class="text-light">Edit</a>
                       </button>
                     <button class="btn btn-primary btn-danger" type="button">
                       <a href="/delete-blog/{{this.id}}" class="text-light">Delete</a>
                     </button>
+                  {{/if}}
                 </div>
               </div>
             </div>
