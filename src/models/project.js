@@ -15,15 +15,16 @@ module.exports = (sequelize, DataTypes) => {
   }
   project.init({
     projectname: DataTypes.STRING,
-    startdate: DataTypes.DATE,
-    enddate: DataTypes.DATE,
+    startdate: DataTypes.STRING,
+    enddate: DataTypes.STRING,
     content: DataTypes.TEXT,
     has_nodejd: DataTypes.BOOLEAN,
     has_nextjs: DataTypes.BOOLEAN,
     has_reactjs: DataTypes.BOOLEAN,
     has_typescript: DataTypes.BOOLEAN,
     image: DataTypes.STRING,
-    dateduration: DataTypes.STRING
+    dateduration: DataTypes.STRING,
+    author: DataTypes.INTEGER,
   }, {
     sequelize,
     modelName: 'project',

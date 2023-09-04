@@ -50,20 +50,22 @@
         <div class="container">
           <section class="mt-5">
             <h2 class="text-center">{{home.projectname}}</h2>
-    
             <div class="mt-5 row">
               <div class="col">
                 <img class="w-100" src="/image/lycs-architecture-U2BI3GMnSSE-unsplash.jpg" alt="coding" />
               </div>
               <div class="col">
+                
                 <div>
                   <p class="fw-bold">Duration</p>
                   <div class="d-flex flex-column row-gap-2">
                     <p>
-                      <i class="fa-solid fa-calendar-days fa-2xl"></i>{{home.startdate}} -
-                      {{home.enddate}}
+                      <i class="fa-solid fa-calendar-days fa-2xl"></i>
+                      {{home.startdate}} - {{home.enddate}}
                     </p>
-                    <p><i class="fa-solid fa-earth-oceania fa-2xl"></i>{{home.dateduration}}</p>
+                    <p><i class="fa-solid fa-earth-oceania fa-2xl"></i>
+                      {{home.dateduration}}
+                    </p>
                   </div>
                 </div>
     
@@ -92,6 +94,11 @@
                     </div>
                   </div>
                 </div>
+
+                <div class="mt-2">
+                 <p class="card-text fw-bold">Author : {{home.author}}</p>
+                </div>
+
               </div>
             </div>
             

@@ -109,13 +109,14 @@
           {{#each obj}}
             <div class="col">
               <div class="card h-100">
-                <img src="/image/annie-spratt-FSFfEQkd1sc-unsplash.jpg" class="card-img-top" alt="..."
+                <img src="{{this.image}}" class="card-img-top" alt="..."
                 style="height:200px; object-fit:cover">
                 <div class="card-body">
                   <a href="/blog-details/{{this.id}}" class="text-secondary-emphasis">
                   <h5 class="card-title" >{{this.projectname}}</h5>
                   </a>
-                  <p class="card-text">durasi : {{this.dateduration}}</p>
+                  <p class="card-text">Author : {{this.author}}</p>
+                  <p class="card-text">Durasi : {{this.dateduration}}</p>
                   <p class="card-text">{{this.content}}</p>
                   {{#if this.has_nodejs}}
                   <img src="/image/icons8-nodejs.svg" alt="" style="width: 25px;">
@@ -131,14 +132,12 @@
                   {{/if}}
                 </div>
                 <div class="container gap-2 d-md-block mb-2">
-                  {{#if this.isLogin}}
                     <button class="btn btn-primary btn-danger" type="button">
                       <a href="/edit-blog/{{this.id}}" class="text-light">Edit</a>
                       </button>
                     <button class="btn btn-primary btn-danger" type="button">
                       <a href="/delete-blog/{{this.id}}" class="text-light">Delete</a>
                     </button>
-                  {{/if}}
                 </div>
               </div>
             </div>

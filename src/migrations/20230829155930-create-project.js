@@ -15,17 +15,17 @@ module.exports = {
       },
       startdate: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.STRING
       },
       enddate: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.STRING
       },
       content: {
         allowNull: false,
         type: Sequelize.TEXT
       },
-      has_nodejd: {
+      has_nodejs: {
         type: Sequelize.BOOLEAN
       },
       has_nextjs: {
