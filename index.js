@@ -52,7 +52,7 @@ app.get('/logout', logout)
 
 //post
 app.post('/add-project', upload.single('uploadimage'), addBlog)
-app.post('/edit-blog/:id', editBlog)
+app.post('/edit-blog/:id', upload.single('uploadimage'), editBlog)
 app.post('/register', addUser)
 app.post('/login', login)
 
@@ -181,7 +181,7 @@ async function blogDetails(req, res) {
     const query = `SELECT projects.id, projectname, startdate, enddate, content, has_nodejs, has_nextjs, has_reactjs, has_typescript, image, dateduration, projects."createdAt", projects."updatedAt",
     users.name AS author FROM public.projects LEFT JOIN users ON projects.author = users.id WHERE projects.id=${id}`
 
-    const obj = await sequelize.query(query, {type: QueryTypes.SELECT})
+    let obj = await sequelize.query(query, {type: QueryTypes.SELECT})
 
     res.render('blog-details', { home: obj[0] })
   } catch (error) {
@@ -192,9 +192,12 @@ async function blogDetails(req, res) {
 async function deleteBlog(req, res) {
   try {
     const { id } = req.params
+    const isLogin = req.session.isLogin
     checkIsLogout(req, res)
 
-    await sequelize.query(`DELETE from "projects" WHERE id=${id}`)
+    if(isLogin){
+      await sequelize.query(`DELETE from "projects" WHERE projects.id=${id}`)
+    }
     res.redirect('/home')
   } catch (error) {
     
@@ -204,7 +207,7 @@ async function deleteBlog(req, res) {
 async function updateBlog(req, res) {
   try {
     const { id } = req.params
-    const query = `SELECT * FROM "projects" WHERE id=${id}`
+    const query = `SELECT * FROM "projects" WHERE projects.id=${id}`
     const obj = await sequelize.query(query, {type: QueryTypes.SELECT})
 
     checkIsLogout(req, res)
@@ -221,6 +224,7 @@ async function updateBlog(req, res) {
 async function editBlog(req, res) {
   try {
     const { id } = req.params
+    const image = req.file.filename
     
     var { projectname, startdate, enddate, content, nodejs, nextjs, reactjs, typescript } = req.body
     const dateduration = duration(startdate, enddate);
@@ -233,10 +237,10 @@ async function editBlog(req, res) {
       UPDATE "projects" SET
         projectname = '${projectname}', startdate = '${startdate}', enddate = '${enddate}', content = '${content}',
         has_nodejs = '${nodejs}', has_nextjs = '${nextjs}', has_reactjs = '${reactjs}', has_typescript = '${typescript}',
-        image = 'img.jpg', dateduration = '${dateduration}' WHERE id= ${id};
+        image = '${image}', dateduration = '${dateduration}' WHERE id= ${id};
     `);
 
-    console.log("databaru")
+  
     res.redirect('/home');
   } catch (error) {
   }
