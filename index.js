@@ -5,6 +5,7 @@ const path = require('path')
 const bcrypt = require('bcrypt')
 const session = require('express-session')
 const flash = require('express-flash')
+const upload = require('./src/middleware/uploadFiles')
 
 // sequelize init
 const config = require('./src/config/config.json')
@@ -17,6 +18,7 @@ app.set('views', path.join(__dirname, 'src/views'))
 
 //serving static files
 app.use(express.static('src/assets'))
+app.use(express.static('src/uploads'))
 
 // parsing data
 app.use(express.urlencoded({ extended: false }))
@@ -49,7 +51,7 @@ app.get('/login', formLogin)
 app.get('/logout', logout)
 
 //post
-app.post('/add-project', addBlog)
+app.post('/add-project', upload.single('uploadimage'), addBlog)
 app.post('/edit-blog/:id', editBlog)
 app.post('/register', addUser)
 app.post('/login', login)
@@ -76,16 +78,26 @@ app.listen(PORT, () => {
 //   }
 // ]
 
+
 async function home(req, res) {
   try {
-    const query = `SELECT id, projectname, startdate, enddate, content, has_nodejs, has_nextjs, has_reactjs, has_typescript, image, dateduration, "createdAt", "updatedAt"
-    FROM public.projects`;
-    let obj = await sequelize.query(query, { type: QueryTypes.SELECT });
+    const isLogin = req.session.isLogin
+    var query = `SELECT projects.id, projectname, startdate, enddate, content, has_nodejs, has_nextjs, has_reactjs, has_typescript, image, dateduration, projects."createdAt", projects."updatedAt",
+    users.name AS author FROM public.projects LEFT JOIN users ON projects.author = users.id ORDER BY projects.id DESC;`;
+
+    if(isLogin) {
+    const userId = req.session.idUser;
+      var query = `SELECT projects.id, projectname, startdate, enddate, content, has_nodejs, has_nextjs, has_reactjs, has_typescript, image, dateduration, projects."createdAt", projects."updatedAt",
+      users.name AS author FROM public.projects LEFT JOIN users ON projects.author = users.id WHERE users.id=${userId} ORDER BY projects.id DESC;`;
+    }
+
+    let obj = await sequelize.query(query, { type: QueryTypes.SELECT }); 
 
     res.render('index', { 
       obj,
       isLogin: req.session.isLogin,
-      user: req.session.user
+      user: req.session.user,
+      userId: req.session.idUser
     })
   } catch (error) {
     console.log(error)}
@@ -139,23 +151,24 @@ async function addBlog(req, res) {
     nextjs = isChecked(nextjs);
     reactjs = isChecked(reactjs);
     typescript = isChecked(typescript);
+    var author = req.session.idUser;
+    const image = req.file.filename
+
+    console.log(image)
 
     await sequelize.query(`
       INSERT INTO "projects"(
-        projectname, startdate, enddate, content,
+        projectname, author, startdate, enddate, content,
         has_nodejs, has_nextjs, has_reactjs, has_typescript,
         image, dateduration
       ) VALUES (
-        '${projectname}', '${startdate}', '${enddate}', '${content}',
+        '${projectname}', ${author}, '${startdate}', '${enddate}', '${content}',
         '${nodejs}', '${nextjs}', '${reactjs}', '${typescript}',
-        'img.jpg', '${dateduration}'
+        '${image}', '${dateduration}'
       )
     `);
     
-    res.redirect('/home', {
-      isLogin: req.session.isLogin,
-      user: req.session.user
-    })
+    res.redirect('/home')
   } catch (error) {
     console.log(error)
   }
@@ -165,7 +178,8 @@ async function addBlog(req, res) {
 async function blogDetails(req, res) {
   try{
     const { id } = req.params
-    const query = `SELECT * FROM "projects" WHERE id=${id}`
+    const query = `SELECT projects.id, projectname, startdate, enddate, content, has_nodejs, has_nextjs, has_reactjs, has_typescript, image, dateduration, projects."createdAt", projects."updatedAt",
+    users.name AS author FROM public.projects LEFT JOIN users ON projects.author = users.id WHERE projects.id=${id}`
 
     const obj = await sequelize.query(query, {type: QueryTypes.SELECT})
 
@@ -181,10 +195,7 @@ async function deleteBlog(req, res) {
     checkIsLogout(req, res)
 
     await sequelize.query(`DELETE from "projects" WHERE id=${id}`)
-    res.redirect('/home', {
-      isLogin: req.session.isLogin,
-      user: req.session.user
-    })
+    res.redirect('/home')
   } catch (error) {
     
   }
@@ -194,14 +205,14 @@ async function updateBlog(req, res) {
   try {
     const { id } = req.params
     const query = `SELECT * FROM "projects" WHERE id=${id}`
-
     const obj = await sequelize.query(query, {type: QueryTypes.SELECT})
-    checkIsLogout(req, res)
 
+    checkIsLogout(req, res)
+  
     res.render('edit-project', { 
       home: obj[0],
       isLogin: req.session.isLogin,
-      user: req.session.user
+      user: req.session.user,
     })
   } catch (error) {
   }
@@ -210,7 +221,7 @@ async function updateBlog(req, res) {
 async function editBlog(req, res) {
   try {
     const { id } = req.params
-    console.log(id)
+    
     var { projectname, startdate, enddate, content, nodejs, nextjs, reactjs, typescript } = req.body
     const dateduration = duration(startdate, enddate);
     nodejs = isChecked(nodejs);
@@ -224,10 +235,9 @@ async function editBlog(req, res) {
         has_nodejs = '${nodejs}', has_nextjs = '${nextjs}', has_reactjs = '${reactjs}', has_typescript = '${typescript}',
         image = 'img.jpg', dateduration = '${dateduration}' WHERE id= ${id};
     `);
-    res.redirect('/home', {
-      isLogin: req.session.isLogin,
-      user: req.session.user
-    });
+
+    console.log("databaru")
+    res.redirect('/home');
   } catch (error) {
   }
 }
@@ -274,6 +284,7 @@ async function login(req, res) {
         return res.redirect('/login')
       } else {
         req.session.isLogin = true
+        req.session.idUser = obj[0].id
         req.session.user = obj[0].name
         req.flash('success', 'Login success')
         res.redirect('/home')
